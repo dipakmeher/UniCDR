@@ -71,9 +71,10 @@ class GraphMaker(object):
 
     def matrix_norm(self, UV_edges, VU_edges, user_number, item_number, cur_domain):
         if self.opt["task"] == "multi-item-intra":
-            cur_src_ease_dir = os.path.join("../datasets/" + str(self.opt["task"]) + "/dataset/", cur_domain + "/ease")
+            #cur_src_ease_dir = os.path.join("../datasets/" + str(self.opt["task"]) + "/dataset/", cur_domain + "/ease")
+            cur_src_ease_dir = os.path.join("../llmdataset/" + str(self.opt["task"]) + "/dataset/", cur_domain + "/ease")
         else:
-            cur_src_ease_dir = os.path.join("../datasets/" + str(self.opt["task"]) + "/dataset/", cur_domain + "/ease")
+            cur_src_ease_dir = os.path.join("../llmdataset/" + str(self.opt["task"]) + "/dataset/", cur_domain + "/ease")
 
         UV_edges = np.array(UV_edges)
         VU_edges = np.array(VU_edges)

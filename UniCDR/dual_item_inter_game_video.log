@@ -1,0 +1,4 @@
+/scratch/dmeher/UniCDR/UniCDR/train_rec.py:238: SyntaxWarning: "is" with a literal. Did you mean "=="?
+  if iteration % 10 is 0:
+/scratch/dmeher/UniCDR/UniCDR/utils/GraphMaker.py:14: RuntimeWarning: divide by zero encountered in power
+  r_inv = np.power(rowsum, -1).flatten()

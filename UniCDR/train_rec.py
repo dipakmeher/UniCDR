@@ -55,12 +55,14 @@ def create_arg_parser():
 
 
 def main():
+    print("Main function loaded")
     parser = create_arg_parser()
     args = parser.parse_args()
 
     opt = vars(args)
 
     opt["device"] = torch.device('cuda' if torch.cuda.is_available() and opt["cuda"] else 'cpu')
+    print("CPU or GPU: ", torch.device('cuda' if torch.cuda.is_available() and opt["cuda"] else 'cpu'))
 
     def print_config(config):
         info = "Running with the following configs:\n"
@@ -111,7 +113,8 @@ def main():
     all_domain_set = []
     all_inter = 0
     for idx, cur_domain in enumerate(domain_list):
-        cur_src_data_dir = os.path.join("../datasets/"+str(opt["task"]) + "/dataset/", cur_domain + "/train.txt")
+        #cur_src_data_dir = os.path.join("/scratch/dmeher/UniCDR/llmdataset/"+str(opt["task"]) + "/dataset/", cur_domain + "/train.txt")
+        cur_src_data_dir = os.path.join("../llmdataset/"+str(opt["task"]) + "/dataset/", cur_domain + "/train.txt")
         print(f'Loading {cur_domain}: {cur_src_data_dir}')
 
         all_domain_list.append({})
@@ -144,7 +147,9 @@ def main():
     all_inter = 0
 
     for idx, cur_domain in enumerate(domain_list):
-        cur_src_data_dir = os.path.join("../datasets/" + str(opt["task"]) + "/dataset/", cur_domain + "/train.txt")
+        #cur_src_data_dir = os.path.join("/scratch/dmeher/UniCDR/llmdataset/" + str(opt["task"]) + "/dataset/", cur_domain + "/train.txt")
+        cur_src_data_dir = os.path.join("../llmdataset/" + str(opt["task"]) + "/dataset/", cur_domain + "/train.txt")
+
         print(f'Loading {cur_domain}: {cur_src_data_dir}')
 
         if opt["aggregator"] == "item_similarity":
@@ -189,10 +194,13 @@ def main():
     test_dataloader = {}
     for cur_domain in domain_list:
         if opt["task"] == "dual-user-intra":
-            domain_valid = os.path.join("../datasets/" + str(opt["task"]) + "/dataset/", cur_domain + "/test.txt")
+            #domain_valid = os.path.join("/scratch/dmeher/UniCDR/llmdataset/" + str(opt["task"]) + "/dataset/", cur_domain + "/test.txt")
+            domain_valid = os.path.join("../llmdataset/" + str(opt["task"]) + "/dataset/", cur_domain + "/test.txt")
         else:
-            domain_valid = os.path.join("../datasets/" + str(opt["task"]) + "/dataset/", cur_domain + "/valid.txt")
-        domain_test = os.path.join("../datasets/"+str(opt["task"]) + "/dataset/", cur_domain + "/test.txt")
+            #domain_valid = os.path.join("/scratch/dmeher/UniCDR/llmdataset/" + str(opt["task"]) + "/dataset/", cur_domain + "/valid.txt")
+            domain_valid = os.path.join("../llmdataset/" + str(opt["task"]) + "/dataset/", cur_domain + "/valid.txt")
+        #domain_test = os.path.join("/scratch/dmeher/UniCDR/llmdataset/"+str(opt["task"]) + "/dataset/", cur_domain + "/test.txt")
+        domain_test = os.path.join("../llmdataset/"+str(opt["task"]) + "/dataset/", cur_domain + "/test.txt")
         valid_dataloader[cur_domain] = task_gen_all[domain_id[cur_domain]].instance_a_valid_dataloader(
             domain_valid, 100)
         test_dataloader[cur_domain] = task_gen_all[domain_id[cur_domain]].instance_a_valid_dataloader(

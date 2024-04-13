@@ -133,6 +133,8 @@ class CrossTrainer(Trainer):
 
     def predict(self, domain_id, eval_dataloader):
         MRR = 0.0
+        MRR_5 = 0.0
+        MRR_10 = 0.0
         NDCG_1 = 0.0
         NDCG_5 = 0.0
         NDCG_10 = 0.0
@@ -163,20 +165,23 @@ class CrossTrainer(Trainer):
                 if rank < 5:
                     NDCG_5 += 1 / np.log2(rank + 2)
                     HT_5 += 1
+                    MRR_5 += 1 / (rank + 1)
                 if rank < 10:
                     NDCG_10 += 1 / np.log2(rank + 2)
                     HT_10 += 1
+                    MRR_10 += 1 / (rank + 1)
                 if valid_entity % 100 == 0:
                     print('+', end='')
 
         print("")
         metrics = {}
-        # metrics["MRR"] = MRR / valid_entity
-        # metrics["NDCG_5"] = NDCG_5 / valid_entity
-        metrics["NDCG_10"] = NDCG_10 / valid_entity
-        # metrics["HT_1"] = HT_1 / valid_entity
-        # metrics["HT_5"] = HT_5 / valid_entity
         metrics["HT_10"] = HT_10 / valid_entity
+        metrics["NDCG_10"] = NDCG_10 / valid_entity
+        metrics["MRR_10"] = MRR_10 / valid_entity
+        metrics["HT_5"] = HT_5 / valid_entity
+        metrics["NDCG_5"] = NDCG_5 / valid_entity
+        metrics["MRR_5"] = MRR_5 / valid_entity
+        metrics["MRR"] = MRR / valid_entity
 
         return metrics
 

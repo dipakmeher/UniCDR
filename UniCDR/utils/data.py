@@ -347,7 +347,7 @@ class TaskGenerator(object):
                                  idx=self.idx
                                  )
         else:
-            negative_number = 999
+            negative_number = 20
             with open(valid_run_file, 'r') as f:
                 for line in f:
                     linetoks = line.split('\t')
